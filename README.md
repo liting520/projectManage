@@ -1,21 +1,16 @@
-# 02-base
-
-> A Vue.js project
-
-## Build Setup
-
-``` bash
-# install dependencies
-npm install
-
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-```
-
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+#系统设置
+ok
+#商城管理
+##商品分类
+ok
+##商品规格
+ok
+##商品管理
+####动态侧边栏
+未完成
+##会员管理
+ok
+##轮播图管理
+ok
+##秒杀活动
+没有写

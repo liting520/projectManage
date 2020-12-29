@@ -10,6 +10,14 @@ Vue.prototype.$pre = "http://localhost:3000"
 // let baseUrl=""
 // Vue.prototype.$pre=""
 
+//设置请求头
+axios.interceptors.request.use(config=>{
+    if(config.url!==baseUrl+"/api/userlogin"){
+        config.headers.authorization=store.state.userInfo.token
+    }
+    return config
+})
+
 
 //响应拦截
 axios.interceptors.response.use(res => {
@@ -21,6 +29,12 @@ axios.interceptors.response.use(res => {
     //统一处理list是null的情况
     if (!res.data.list) {
         res.data.list = []
+    }
+    if(res.data.msg==="登录已过期或访问权限受限"){
+        //清除用户登录的信息 userInfo
+        store.dispatch("changeUser",{})
+        //跳到登录页面
+        router.push("/login")
     }
     console.group("本次请求地址是：" + res.config.url)
     console.log(res);

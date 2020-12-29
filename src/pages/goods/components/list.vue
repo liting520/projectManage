@@ -1,89 +1,119 @@
 <template>
   <div>
-    <el-table
-    :data="list"
-    style="width: 100%" 
-    row-key="id"
-    border
-    :tree-props="{children: 'children'}">
+    
+     <el-table
+    :data="goodsList"
+      style="width: 100%;margin-bottom: 20px;"
+      row-key="id"
+      border
+      :tree-props="{children: 'children'}">
     <el-table-column
       prop="id"
       label="商品编号"
-     >
+      >
     </el-table-column>
     <el-table-column
-      prop="catename"
-      label="商品价格"
-     >
+      prop="goodsname"
+      label="商品名称"
+      >
     </el-table-column>
     <el-table-column
-      prop="catename"
-      label="市场价格"
-     >
+      prop="price"
+      label="商品价格">
     </el-table-column>
     <el-table-column
-      label="图片" sortable>
+      prop="market_price"
+      label="市场价格">
+    </el-table-column>
+    <el-table-column
+      prop="img"
+      label="图片">
       <template slot-scope="scope">
-        <img class="img" v-if="scope.row.img!=='null'" :src="$pre+scope.row.img" alt="" >
-      </template>
+         <img :src="$pre+scope.row.img" alt="">
+        </template>
     </el-table-column>
     <el-table-column
-      prop="status"
+      prop="isnew"
       label="是否新品">
-      <template slot-scope="scope">
-        <el-button type="primary" v-if="scope.row.status===1">是</el-button>
-      <el-button type="danger" v-else>否</el-button>
-      </template>
+       <template slot-scope="scope">
+          <el-button type="primary" v-if="scope.row.isnew===1">是</el-button>
+          <el-button type="info" v-else>否</el-button>
+        </template>
     </el-table-column>
     <el-table-column
-      prop="status"
+      prop="ishot"
       label="是否热卖">
-      <template slot-scope="scope">
-        <el-button type="primary" v-if="scope.row.status===1">是</el-button>
-      <el-button type="danger" v-else>否</el-button>
-      </template>
+       <template slot-scope="scope">
+          <el-button type="primary" v-if="scope.row.ishot===1">是</el-button>
+          <el-button type="info" v-else>否</el-button>
+        </template>
     </el-table-column>
     <el-table-column
       prop="status"
       label="状态">
       <template slot-scope="scope">
-        <el-button type="primary" v-if="scope.row.status===1">启用</el-button>
-      <el-button type="info" v-else>禁用</el-button>
-      </template>
+          <el-button type="primary" v-if="scope.row.status===1">启用</el-button>
+          <el-button type="info" v-else>禁用</el-button>
+        </template>
     </el-table-column>
     <el-table-column
-      label="操作"
-      width="180">
-     <template slot-scope="scope">
+      label="操作" width="180px">
+       <template slot-scope="scope">
         <el-button type="primary" @click="edit(scope.row.id)">编辑</el-button>
-      <el-button type="danger" @click="del(scope.row.id)">删除</el-button>
-     </template>
+        <el-button type="danger" @click="del(scope.row.id)">删除</el-button>
+      </template>
     </el-table-column>
   </el-table>
+   <!-- 分页 -->
+    <el-pagination background layout="prev, pager, next" 
+    :total="total"
+    :page-size="size"
+    @current-change="changePage"
+    ></el-pagination>
   </div>
 </template>
 
 <script>
 import {mapActions,mapGetters} from "vuex"
+import {reqGoodsDel} from "../../../utils/http"
+import {successalert} from "../../../utils/alert"
 export default {
-
-methods:{
-   ...mapActions({
-   
-  }),
- 
-},
 computed:{
-...mapGetters({
- 
-})
+  ...mapGetters({
+    goodsList:"goods/list",
+    total:"goods/total",
+    size:"goods/size"
+  })
 },
+methods:{
+  ...mapActions({
+    reqGoodsL:"goods/reqList",
+     reqTotal:"goods/reqTotal",
+      changePage:"goods/changePage"
+  }),
+  //点击删除
+  del(id){
+    reqGoodsDel({id:id}).then(res=>{
+      successalert(res.data.ms)
+      this.reqGoodsL()
+      this.reqTotal()
+    })
+  },
+  //点击编辑
+  edit(id){
+    this.$emit("edit",id)
+  }
+},
+mounted(){
+  this.reqGoodsL()
+  this.reqTotal()
+}
 }
 </script>
 
 <style scoped>
-.img{
-  width:80px;
-  height: 80px;
-}
+  img{
+    width: 80px;
+    height: 80px;
+  }
 </style>

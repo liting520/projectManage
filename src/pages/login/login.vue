@@ -4,13 +4,13 @@
       <h3>登录</h3>
       <div class="ipt">
         <el-input
-          v-model="input"
+          v-model="user.username"
           placeholder="请输入用户名"
         ></el-input>
       </div>
       <div class="ipt"> 
         <el-input
-          v-model="input"
+          v-model="user.password"
           placeholder="请输入密码"
         ></el-input>
       </div>
@@ -23,6 +23,7 @@
 
 <script>
 import {reqManageLogin,reqManageList} from "../../utils/http"
+import {mapActions,mapGetters} from "vuex"
 export default {
   data() {
     return {
@@ -33,12 +34,22 @@ export default {
       }
     };
   },
+  computed:{
+    ...mapGetters({
+      userInfo:"userInfo"
+    })
+  },
   methods:{
+    ...mapActions({
+      changeUser:"changeUser"
+    }),
     login(){
-      this.$router.push("/")
-      // reqManageLogin(this.user).then(res=>{
-      //   console.log(res)
-      // })
+      reqManageLogin(this.user).then(res=>{
+        if(res.data.code==200){
+          this.changeUser(res.data.list)
+          this.$router.push("/")
+        }
+      })
     },
     getManageList(){
       reqManageList({page}).then(res=>{

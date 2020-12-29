@@ -47,7 +47,10 @@
         </el-row>
       </el-aside>
       <el-container>
-        <el-header>Header</el-header>
+        <el-header>
+          <span>{{userInfo.username}}</span>
+          <el-button type="danger" @click="logout">退出登录</el-button>
+        </el-header>
         <el-main>
           <el-breadcrumb
             separator="/"
@@ -65,7 +68,24 @@
 </template>
 
 <script>
-export default {};
+import {mapGetters,mapActions} from "vuex"
+
+export default {
+  computed:{
+    ...mapGetters({
+      userInfo:"userInfo"
+    })
+  },
+  methods:{
+    ...mapActions({
+      changeUser:"changeUser"
+    }),
+    logout(){
+      this.changeUser({});
+      this.$router.replace("/login")
+    }
+  }
+};
 </script>
 
 <style scoped>
