@@ -1,6 +1,8 @@
 import axios from "axios"
 import qs from "qs"
 import Vue from "vue"
+import store from "../store"
+import router from "../router"
 import { erroralert } from "./alert"
 //开发环境使用 8080
 let baseUrl = "/api"

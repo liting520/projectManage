@@ -58,8 +58,14 @@
 <script>
 import { successalert } from '../../../utils/alert';
 import { reqRoleAdd, reqRoleGet , reqRoleUpdate} from "../../../utils/http";
+import {mapGetters,mapActions} from "vuex"
 export default {
   props: ["info", "list"],
+  computed:{
+    ...mapGetters({
+      userInfo:"userInfo"
+    })
+  },
   data() {
     return {
       role: {
@@ -76,6 +82,9 @@ export default {
     };
   },
   methods: {
+    ...mapActions({
+      changeUser:"changeUser"
+    }),
     empty(){
       this.role={
         rolename: "",
@@ -94,6 +103,11 @@ export default {
       reqRoleAdd(this.role).then(res=>{
         if(res.data.code==200){
           successalert(res.data.msg)
+          if(this.role.id==this.userInfo.roleid){
+            this.changeUser({})
+            this.$router.push("/login")
+            return 
+          }
           this.cancel()
           this.empty()
           this.$refs.tree.setCheckedKeys([])

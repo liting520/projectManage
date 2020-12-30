@@ -69,10 +69,16 @@
 </template>
 
 <script>
+import {mapActions,mapGetters} from "vuex"
 import { reqBannerAdd , reqBannerOne,reqBannerUpdate} from "../../../utils/http";
 import { successalert } from "../../../utils/alert";
 export default {
   props: ["info"],
+  computed:{
+// ...mapGetters({
+//   list:"banner/list"
+// })
+},
   data() {
     return {
       imgUrl:"",
@@ -84,6 +90,9 @@ export default {
     };
   },
   methods: {
+      ...mapActions({
+reqList:"banner/reqList"
+  }),
     empty(){
       this.imgUrl="",
       this.banner= {
@@ -104,7 +113,7 @@ export default {
           successalert(res.data.msg);
           this.empty()
           this.cancel()
-          this.$emit("init")
+          this.reqList()
         }
       });
     },
@@ -133,7 +142,7 @@ export default {
           successalert(res.data.msg)
           this.cancel()
           this.empty()
-          this.$emit("init")
+        this.reqList()
         }
       })
     }

@@ -4,12 +4,12 @@
 
 
       <!-- list -->
-      <v-list :list="list" @init="init" @edit="edit($event)"></v-list>
+      <v-list @edit="edit($event)"></v-list>
 
 
 
       <!-- add -->
-      <v-add :info="info" @init="init" :list="list" ref="add"></v-add>
+      <v-add :info="info" ref="add"></v-add>
 
 
       
@@ -19,11 +19,17 @@
 <script>
 import vList from "./components/list"
 import vAdd from "./components/add"
+import {mapActions,mapGetters} from "vuex"
 import {reqBannerList} from "../../utils/http"
 export default {
 components:{
   vList,
   vAdd
+},
+computed:{
+...mapGetters({
+  list:"banner/list"
+})
 },
 data(){
   return {
@@ -35,17 +41,14 @@ data(){
   }
 },
 methods:{
+  ...mapActions({
+reqList:"reqList"
+  }),
   willadd(){
     this.info.isshow=true
     this.info.isadd=true
   },
-  init(){
-    reqBannerList().then(res=>{
-      if(res.data.code==200){
-        this.list=res.data.list
-      }
-    })
-  },
+  
   edit(id){
   this.info.isshow=true
   this.info.isadd=false
@@ -53,7 +56,7 @@ methods:{
   }
 },
 mounted(){
-  this.init()
+this.reqList()
 }
 }
 </script>

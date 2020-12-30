@@ -40,11 +40,20 @@
 </template>
 
 <script>
+import {mapActions,mapGetters} from "vuex"
 import {successalert} from "../../../utils/alert"
 import {reqBannerDel} from "../../../utils/http"
 export default {
-props:["list"],
+
+computed:{
+...mapGetters({
+  list:"banner/list"
+})
+},
 methods:{
+    ...mapActions({
+reqList:"reqList"
+  }),
   del(id){
      this.$confirm('你确定要删除?', '提示', {
           confirmButtonText: '删除',
@@ -54,7 +63,7 @@ methods:{
          reqBannerDel({id:id}).then(res=>{
            if(res.data.code==200){
              successalert(res.data.msg)
-             this.$emit("init")
+             this.reqList()
            }
          })
         }).catch(() => {});
