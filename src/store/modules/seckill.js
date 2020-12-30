@@ -1,4 +1,4 @@
-import { reqBannerList } from "../../utils/http"
+import { reqSeckillList } from "../../utils/http"
 
 let state={
     list:[]
@@ -12,12 +12,12 @@ let mutations={
     //改变list
     changeList(state,arr){
         state.list=arr
-    } 
+    }
 }
 let actions={
     //请求数据
     reqList(context){
-        reqBannerList().then(res=>{
+        reqSeckillList({istree:true}).then(res=>{
             if(res.data.code==200){
                 context.commit("changeList",res.data.list)
             }

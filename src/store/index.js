@@ -8,15 +8,17 @@ import cate from "./modules/cate"
 import specs from "./modules/specs"
 import goods from "./modules/goods"
 import banner from "./modules/banner"
+import seckill from "./modules/seckill"
 export default new Vuex.Store({
     state,
     mutations, 
     actions,
-    getters,
+    getters, 
     modules:{
         cate,
         specs,
         goods,
-        banner
+        banner,
+        seckill
     }
 })

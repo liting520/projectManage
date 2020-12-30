@@ -52,7 +52,7 @@ computed:{
 },
 methods:{
     ...mapActions({
-reqList:"reqList"
+reqList:"banner/reqList"
   }),
   del(id){
      this.$confirm('你确定要删除?', '提示', {

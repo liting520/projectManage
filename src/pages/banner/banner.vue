@@ -37,12 +37,11 @@ data(){
       isshow:false,
       isadd:true
     },
-    list:[]
   }
 },
 methods:{
   ...mapActions({
-reqList:"reqList"
+reqList:"banner/reqList"
   }),
   willadd(){
     this.info.isshow=true

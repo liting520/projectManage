@@ -470,3 +470,52 @@ export let reqGoodsDel=(id)=>{
 
 
 /************商品管理 end**************************/
+
+/************商品秒杀 start**************************/
+
+//添加
+export let reqSeckillAdd=(seckill)=>{
+    return axios({
+        url:baseUrl+"/api/seckadd",
+        method:"post",
+        data:qs.stringify(seckill)
+    })
+}
+
+//列表
+export let reqSeckillList=()=>{
+    return axios({
+        url:baseUrl+"/api/secklist",
+        method:"get",
+    })
+}
+
+
+//获取一条
+export let reqSeckillOne=(id)=>{
+    return axios({
+        url:baseUrl+"/api/seckinfo",
+        method:"get",
+        params:id
+    })
+}
+
+//修改
+export let reqSeckillUpdate=(seckill)=>{
+    return axios({
+        url:baseUrl+"/api/seckedit",
+        method:"post",
+        data:qs.stringify(seckill)
+    })
+}
+
+//删除
+export let reqSeckillDel=(id)=>{
+    return axios({
+        url:baseUrl+"/api/seckdelete",
+        method:"post",
+        data:id
+    })
+}
+
+/************商品秒杀 end**************************/
