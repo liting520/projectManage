@@ -3,8 +3,9 @@
     <el-dialog
       :title="info.isadd?'添加活动':'编辑活动'"
       :visible.sync="info.isshow"
+      @closed="cancel"
     >
-      {{seckill}}
+      <!-- {{seckill}} -->
       <el-form :model="seckill">
         <el-form-item
           label="活动名称"
@@ -19,19 +20,18 @@
           label="活动期限"
           label-width="100px"
         >
-          <!-- value-format="timestamp" -->
           <el-date-picker
             v-model="value1"
             type="datetimerange"
             align="right"
             start-placeholder="开始日期"
             end-placeholder="结束日期"
-            :default-time="[value1[0],value1[1]]"
-            value-format='timestamp'
+            
+            
           >
           </el-date-picker>
 
-          <div>{{value1}}</div>
+          <!-- <div>{{value1}}</div> -->
 
         </el-form-item>
         <el-form-item
@@ -216,9 +216,9 @@ export default {
       });
     },
     //时间点击确认改变
-    add() {
-      this.seckill.begintime=this.value1[0]
-      this.seckill.endtime=this.value1[1]
+    add() { 
+      this.seckill.begintime=this.value1[0].getTime()
+      this.seckill.endtime=this.value1[1].getTime()
       reqSeckillAdd(this.seckill).then((res) => {
         if (res.data.code == 200) {
           successalert(res.data.msg);
@@ -235,12 +235,14 @@ export default {
           this.seckill.id = id;
           this.getSecondCate();
           this.getThiredCate();
-          this.$set(this.value1,0,Number(this.seckill.begintime))
-          this.$set(this.value1,1,Number(this.seckill.endtime))
+          this.$set(this.value1,0,new Date(Number(this.seckill.begintime)))
+          this.$set(this.value1,1,new Date(Number(this.seckill.endtime)))
         }
       });
     },
     update() {
+       this.seckill.begintime=this.value1[0].getTime()
+      this.seckill.endtime=this.value1[1].getTime()
       reqSeckillUpdate(this.seckill).then((res) => {
         if (res.data.code == 200) {
           successalert(res.data.msg);
